@@ -1,0 +1,16 @@
+{
+	"name": "bdd_exemplo",
+	"module": "index.ts",
+	"type": "module",
+	"scripts": {
+		"test": "cucumber-js"
+	},
+	"devDependencies": {
+		"@cucumber/cucumber": "^11.2.0",
+		"@types/bun": "latest",
+		"chai": "^5.1.2"
+	},
+	"peerDependencies": {
+		"typescript": "^5.0.0"
+	}
+}

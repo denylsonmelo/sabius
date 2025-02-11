@@ -1,0 +1,7 @@
+{
+	"editor.formatOnSave": true,
+	"[cucumber]": {
+		"editor.defaultFormatter": "CucumberOpen.cucumber-official"
+	},
+	
+}
