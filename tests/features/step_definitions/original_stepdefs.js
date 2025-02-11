@@ -1,6 +1,3 @@
-// const assert = require("assert");
-// const { Given, When, Then } = require("@cucumber/cucumber");
-
 import { Given, Then, When } from "@cucumber/cucumber";
 import { assert } from "chai";
 
