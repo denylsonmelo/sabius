@@ -2,6 +2,7 @@
 	"default": {
 		"formatOptions": {
 			"snippetInterface": "synchronous"
-		}
+		},
+		"paths": ["tests/**/*.feature"]
 	}
 }
