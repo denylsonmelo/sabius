@@ -5,25 +5,21 @@ import { Given, Then, When } from "@cucumber/cucumber";
 import { assert } from "chai";
 
 function isItFriday(today) {
-	if (today === "Friday") {
+	if (today === "Sexta-feira") {
 		return "TGIF";
 	} else {
-		return "Nope";
+		return "Não";
 	}
 }
 
-Given("today is Sunday", function () {
-	this.today = "Sunday";
+Given("que hoje é {string}", function (givenDay) {
+	this.today = givenDay;
 });
 
-Given("today is Friday", function () {
-	this.today = "Friday";
-});
-
-When("I ask whether it's Friday yet", function () {
+When("pergunto se já é sexta-feira", function () {
 	this.actualAnswer = isItFriday(this.today);
 });
 
-Then("I should be told {string}", function (expectedAnswer) {
+Then("deveria me dizer {string}", function (expectedAnswer) {
 	assert.strictEqual(this.actualAnswer, expectedAnswer);
 });
