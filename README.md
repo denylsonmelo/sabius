@@ -1,5 +1,7 @@
 # bdd_exemplo
 
+[![Meu primeiro fluxo de trabalho](https://github.com/denylsonmelo/sabius/actions/workflows/ci.yml/badge.svg)](https://github.com/denylsonmelo/sabius/actions/workflows/ci.yml)
+
 To install dependencies:
 
 ```bash
