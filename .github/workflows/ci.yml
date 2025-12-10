@@ -1,0 +1,31 @@
+name: CI Pipeline
+on: [push, pull_request]
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: Configurar Bun
+              uses: oven-sh/setup-bun@v1
+              with:
+                  bun-version: latest
+
+            - name: Instalar dependências
+              run: bun install
+
+            - name: Executar testes
+              run: bun test
+            - name: Notificar resultados em email
+              if: failure()
+              uses: dawidd6/action-send-mail@v6
+              with:
+                  server_address: smtp.gmail.com
+                  server_port: 465
+                  username: ${{ secrets.SMTP_USERNAME }}
+                  password: ${{ secrets.SMTP_PASSWORD }}
+                  to: ci@meuprojeto.com
+                  from: CI Bot <MeuProjeto CI Bot>
+                  subject: "CI Pipeline Falhou"
+                  body: |
+                      "O pipeline de CI de ${{github.repository}} falhou.""
+                      "Por favor, verifique os logs."
