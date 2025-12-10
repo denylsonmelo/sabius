@@ -16,7 +16,7 @@ jobs:
               run: bun install
 
             - name: Executar testes
-              run: bun test
+              run: bun run test
 
             - name: Notificar resultados em email
               if: failure()
