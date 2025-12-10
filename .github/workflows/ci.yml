@@ -1,7 +1,7 @@
 name: Meu primeiro fluxo de trabalho
 on: [push, pull_request, workflow_dispatch]
 jobs:
-    build:
+    construcao:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout do repositório
