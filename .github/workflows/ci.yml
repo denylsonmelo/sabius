@@ -16,7 +16,7 @@ jobs:
               run: bun install
 
             - name: Executar testes
-              run: bun run test
+              run: bun test
 
             - name: Notificar resultados em email
               if: failure()
@@ -32,3 +32,10 @@ jobs:
                   body: |
                       "O pipeline de CI de ${{github.repository}} falhou.""
                       "Por favor, verifique os logs."
+
+    trabalho2:
+        runs-on: ubuntu-latest
+        needs: construcao
+        steps:
+            - name: Executar tarefas adicionais
+              run: echo "Executando tarefas adicionais..."
