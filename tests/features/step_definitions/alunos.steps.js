@@ -6,6 +6,7 @@ Given(
 	"que o sistema não possui um aluno com matrícula {string}",
 	function (matricula) {
 		this.alunos = new Alunos();
+		this.alunos[matricula] = "valor em string diferente";
 		assert.strictEqual(this.alunos.get(matricula), undefined);
 	}
 );

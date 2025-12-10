@@ -1,0 +1,220 @@
+# Arquivo de Backlog de Produto
+# Formato: YAML
+# Projeto: Plataforma EAD com E-commerce
+
+backlog_produto:
+    - epico: "[ÉPICO] Autenticação e Perfis de Usuário"
+      descricao: "Rastreia todo o trabalho relacionado à identidade e acesso do usuário."
+      historias_de_usuario:
+          - id: US01
+            titulo: "Como um visitante, eu quero me cadastrar na plataforma para poder acessar os cursos."
+            detalhes: "O cadastro é o primeiro ponto de contato do usuário com a plataforma. O processo deve ser simples, rápido e seguro, capturando o mínimo de informações necessárias. Após o sucesso, o usuário deve ser logado automaticamente para incentivar o engajamento."
+            cenarios_bdd:
+                - titulo: Cadastro com sucesso
+                  passos: |
+                      Dado que eu sou um visitante não autenticado e estou na página de "/cadastro"
+                      Quando eu preencho o campo "Nome" com "João da Silva"
+                      E preencho o campo "E-mail" com "joao.silva@exemplo.com"
+                      E preencho o campo "Senha" com "senhaForte123"
+                      E clico no botão "Cadastrar"
+                      Então eu devo ser redirecionado para a página "/cursos"
+                      E devo ver uma mensagem de boas-vindas como "Olá, João da Silva!"
+                - titulo: Tentar cadastrar com e-mail já existente
+                  passos: |
+                      Dado que já existe uma conta com o e-mail "usuario.existente@exemplo.com"
+                      Quando eu tento me cadastrar com o mesmo e-mail
+                      Então devo ver uma mensagem de erro: "Este e-mail já está em uso."
+                - titulo: Tentar cadastrar com senha inválida (muito curta)
+                  passos: |
+                      Dado que estou na página de "/cadastro"
+                      Quando eu preencho os campos de nome e e-mail
+                      E preencho o campo "Senha" com "12345"
+                      E clico no botão "Cadastrar"
+                      Então devo ver uma mensagem de erro: "A senha deve ter no mínimo 8 caracteres."
+
+          - id: US02
+            titulo: "Como um usuário cadastrado, eu quero fazer login para acessar minha conta."
+            detalhes: "O login permite que usuários retornem à plataforma. O sistema deve validar as credenciais e iniciar uma sessão segura, exibindo uma mensagem de erro genérica em caso de falha."
+            cenarios_bdd:
+                - titulo: Login com credenciais válidas
+                  passos: |
+                      Dado que eu sou um usuário cadastrado com o e-mail "usuario.valido@exemplo.com" e senha "senhaForte123"
+                      E estou na página de "/login"
+                      Quando eu preencho minhas credenciais e clico em "Entrar"
+                      Então eu devo ser redirecionado para a página "/cursos"
+                      E devo ver meu nome de usuário no cabeçalho.
+                - titulo: Login com senha incorreta ou e-mail não cadastrado
+                  passos: |
+                      Dado que estou na página de "/login"
+                      Quando eu tento fazer login com credenciais inválidas
+                      Então devo ver uma mensagem de erro: "E-mail ou senha inválidos."
+
+          - id: US04
+            titulo: "Como um usuário, eu quero poder recuperar minha senha caso a tenha esquecido."
+            detalhes: "O usuário deve ser capaz de solicitar um link de redefinição de senha por e-mail. O link deve ser de uso único e ter tempo de expiração."
+            cenarios_bdd:
+                - titulo: Solicitar redefinição de senha com e-mail válido
+                  passos: |
+                      Dado que sou um usuário cadastrado e estou na página "/esqueci-minha-senha"
+                      Quando eu insiro meu e-mail e clico em "Enviar link de recuperação"
+                      Então devo ver uma mensagem de confirmação e um e-mail deve ser enviado.
+                - titulo: Redefinir a senha com um link válido
+                  passos: |
+                      Dado que eu recebi um link de redefinição de senha válido
+                      Quando eu clico no link e defino uma nova senha
+                      Então sou redirecionado para a página de login com uma mensagem de sucesso.
+
+          - id: US05
+            titulo: "Como um usuário logado, quero poder editar as informações do meu perfil."
+            detalhes: "Os usuários devem ter controle sobre suas informações pessoais, como nome, que devem ser refletidas em toda a plataforma após a atualização."
+            cenarios_bdd:
+                - titulo: Aluno atualiza seu nome com sucesso
+                  passos: |
+                      Dado que eu sou um aluno logado como "João Antigo" e acesso a página "/meu-perfil"
+                      Quando eu altero o campo "Nome" para "João Novo" e clico em "Salvar Alterações"
+                      Então devo ver uma mensagem de sucesso e meu nome de exibição deve ser "João Novo".
+
+    - epico: "[ÉPICO] Plataforma E-commerce"
+      descricao: "Rastreia a jornada de descoberta e compra de cursos pelo aluno."
+      historias_de_usuario:
+          - id: US03
+            titulo: "Como um usuário, quero ver uma lista de cursos disponíveis para saber o que posso comprar."
+            detalhes: "A página de listagem de cursos é a vitrine principal. Deve apresentar os cursos de forma organizada, com informações essenciais e capacidade de filtro."
+            cenarios_bdd:
+                - titulo: Visualizar a lista completa de cursos
+                  passos: |
+                      Dado que existem cursos publicados na plataforma
+                      Quando eu acesso a página "/cursos"
+                      Então devo ver uma lista de cards, cada um exibindo título, descrição e preço.
+                - titulo: Filtrar cursos por uma categoria existente
+                  passos: |
+                      Quando eu aplico um filtro de categoria na página de cursos
+                      Então a lista deve ser atualizada para mostrar apenas os cursos daquela categoria.
+
+          - id: US06
+            titulo: "Como um usuário, quero ver a página de detalhes de um curso para decidir se quero comprá-lo."
+            detalhes: "A página de detalhes do curso deve conter todas as informações relevantes para a decisão de compra: descrição completa, currículo, carga horária, professor e preço."
+            cenarios_bdd:
+                - titulo: Acessar página de detalhes de um curso
+                  passos: |
+                      Dado que estou na página de listagem de cursos
+                      Quando eu clico em um curso específico
+                      Então sou redirecionado para sua página de detalhes
+                      E vejo todas as informações e o botão "Adicionar ao Carrinho".
+
+          - id: US07
+            titulo: "Como um usuário, quero adicionar um curso ao meu carrinho de compras."
+            detalhes: "Inicia o processo de checkout, associando o curso ao carrinho do usuário e fornecendo feedback visual imediato."
+            cenarios_bdd:
+                - titulo: Adicionar um item ao carrinho pela primeira vez
+                  passos: |
+                      Dado que estou na página de detalhes de um curso e meu carrinho está vazio
+                      Quando eu clico em "Adicionar ao Carrinho"
+                      Então vejo uma mensagem de sucesso e o ícone do carrinho no cabeçalho é atualizado para "1".
+                - titulo: Tentar adicionar o mesmo curso novamente
+                  passos: |
+                      Dado que um curso já está no meu carrinho
+                      Quando eu tento adicioná-lo novamente
+                      Então o botão deve estar desabilitado ou indicar que o item já foi adicionado.
+
+          - id: US08
+            titulo: "Como um usuário, quero poder visualizar e gerenciar os itens no meu carrinho antes de finalizar a compra."
+            detalhes: "A página do carrinho resume o pedido, permitindo ao usuário remover itens e ver o total recalculado antes de prosseguir para o pagamento."
+            cenarios_bdd:
+                - titulo: Remover um item do carrinho
+                  passos: |
+                      Dado que estou na página do carrinho com 2 cursos totalizando R$ 120,00
+                      Quando eu removo um curso de R$ 50,00
+                      Então a lista de itens e o valor total (R$ 70,00) devem ser atualizados.
+
+    - epico: "[ÉPICO] Sistema de Pagamentos e Conta de Usuário"
+      descricao: "Rastreia a finalização da compra, o uso do saldo e a liberação do acesso ao curso."
+      historias_de_usuario:
+          - id: US09
+            titulo: "Como um usuário, quero finalizar uma compra utilizando o saldo disponível na minha conta."
+            detalhes: "Permite que os usuários usem um sistema de carteira virtual para adquirir cursos de forma rápida, sem a necessidade de inserir dados de pagamento a cada transação, desde que possuam saldo suficiente."
+            cenarios_bdd:
+                - titulo: Compra bem-sucedida usando saldo
+                  passos: |
+                      Dado que eu tenho um curso de R$ 50,00 no carrinho
+                      E eu possuo um saldo de R$ 100,00 na minha conta
+                      Quando eu seleciono a opção "Pagar com Saldo" e finalizo a compra
+                      Então meu saldo deve ser atualizado para R$ 50,00
+                      E eu devo receber acesso imediato ao curso na minha área "Meus Cursos".
+                - titulo: Tentar comprar com saldo insuficiente
+                  passos: |
+                      Dado que eu tenho um curso de R$ 150,00 no carrinho
+                      E eu possuo um saldo de R$ 100,00 na minha conta
+                      Quando eu tento pagar com saldo
+                      Então devo ver uma mensagem de erro "Saldo insuficiente"
+                      E a compra não deve ser concluída.
+
+          - id: US10
+            titulo: "Como um usuário, quero poder adicionar saldo à minha conta para futuras compras."
+            detalhes: "Funcionalidade que permite ao usuário carregar sua carteira virtual na plataforma através de diferentes métodos de pagamento (inicialmente PIX), facilitando compras futuras."
+            cenarios_bdd:
+                - titulo: Adicionar R$ 50,00 de saldo via PIX
+                  passos: |
+                      Dado que eu estou na página "Minha Conta" e meu saldo atual é R$ 20,00
+                      Quando eu escolho a opção "Adicionar Saldo"
+                      E insiro o valor de R$ 50,00 e seleciono PIX como método
+                      Então um QR Code para pagamento deve ser gerado
+                      E após a confirmação do pagamento pelo sistema, meu saldo deve ser atualizado para R$ 70,00.
+
+          - id: US11
+            titulo: "Como um usuário, quero poder visualizar meu histórico de compras."
+            detalhes: "Oferece transparência e controle ao usuário, permitindo que ele consulte todas as transações realizadas, incluindo cursos adquiridos, data e valor pago."
+            cenarios_bdd:
+                - titulo: Consultar compra anterior
+                  passos: |
+                      Dado que eu sou um aluno logado e já comprei o "Curso A" por R$ 50,00
+                      Quando eu acesso a página "Meus Pedidos"
+                      Então eu devo ver uma lista contendo o item "Curso A", com a data da compra e o valor "R$ 50,00".
+
+    - epico: "[ÉPICO] Gestão Acadêmica Core"
+      descricao: "Rastreia as funcionalidades centrais da plataforma de EAD: criação de conteúdo e acompanhamento do aprendizado."
+      historias_de_usuario:
+          - id: US12
+            titulo: "Como um professor, quero poder criar a estrutura básica de um novo curso."
+            detalhes: "Ponto de partida para os criadores de conteúdo. O professor deve ser capaz de criar um novo curso definindo suas informações fundamentais (título, descrição, preço), que inicialmente fica em estado de 'Rascunho', não visível para os alunos."
+            cenarios_bdd:
+                - titulo: Cadastro de curso com informações básicas
+                  passos: |
+                      Dado que eu sou um professor logado no sistema
+                      Quando eu acesso a área de "Meus Cursos" e clico em "Criar Novo Curso"
+                      E preencho o título, descrição e preço
+                      Então o curso deve ser criado com o status "Rascunho" e não deve aparecer na listagem pública.
+
+          - id: US13
+            titulo: "Como um professor, quero poder adicionar aulas e conteúdo (vídeos) a um curso que criei."
+            detalhes: "Essencial para a construção do curso. O professor pode estruturar o curso em módulos e aulas, fazendo o upload de materiais, como vídeos, para cada aula."
+            cenarios_bdd:
+                - titulo: Upload de vídeo para uma aula
+                  passos: |
+                      Dado que eu estou editando um curso que criei
+                      Quando eu clico em "Adicionar Aula"
+                      E forneço um título e faço o upload de um arquivo de vídeo
+                      Então a nova aula deve aparecer na estrutura do curso com o vídeo anexado.
+
+          - id: US14
+            titulo: "Como um aluno, quero poder acessar e assistir às aulas de um curso que comprei."
+            detalhes: "Esta é a funcionalidade principal para o aluno. Após a compra, o curso deve aparecer em sua área pessoal ('Meus Cursos'), e ele deve ser capaz de navegar pela estrutura de aulas e consumir o conteúdo."
+            cenarios_bdd:
+                - titulo: Assistir a uma aula
+                  passos: |
+                      Dado que eu sou um aluno e comprei o curso "Introdução a Docker"
+                      Quando eu acesso a página "Meus Cursos" e clico neste curso
+                      Então eu devo ver a lista de aulas
+                      E ao clicar em uma aula, o vídeo deve ser reproduzido.
+
+          - id: US15
+            titulo: "Como um professor, quero poder atribuir notas às atividades dos alunos."
+            detalhes: "Permite a avaliação do progresso do aluno. O professor deve ter uma interface para visualizar as atividades enviadas pelos alunos de um determinado curso e registrar uma nota para cada uma."
+            cenarios_bdd:
+                - titulo: Atribuir nota a uma atividade
+                  passos: |
+                      Dado que um aluno enviou uma atividade no curso "Introdução a Docker"
+                      E eu sou o professor deste curso
+                      Quando eu acesso a área de "Correções" e atribuo a nota 8.5 para a atividade
+                      Então a nota do aluno deve ser registrada no sistema
+                      E o aluno deve poder visualizar essa nota em sua área de progresso.
